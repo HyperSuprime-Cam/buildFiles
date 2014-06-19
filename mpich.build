@@ -18,7 +18,7 @@ else
         LD_LIBRARY_PATH+=":$PBS_LIB_DIR"
     fi
 fi &&
-./configure --prefix=$product_dir --enable-shared --disable-f77 --disable-fc $pbs_options &&
+./configure --prefix=$product_dir --enable-shared --disable-fortran $pbs_options &&
 make -j 1 &&
 if [ ! -d $product_dir ]; then
 	mkdir -p $product_dir;
