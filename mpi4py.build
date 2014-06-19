@@ -1,15 +1,15 @@
 @LSST UPS@ &&
 curl -L \
-    http://mpi4py.googlecode.com/files/mpi4py-@VERSION@.tar.gz \
-> @PRODUCT@-@VERSION@.tar.gz &&
-gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
+    http://mpi4py.googlecode.com/files/mpi4py-@REPOVERSION@.tar.gz \
+> @PRODUCT@-@REPOVERSION@.tar.gz &&
+gunzip < @PRODUCT@-@REPOVERSION@.tar.gz | tar -xf - &&
 product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
 python_version=$(python -c "import distutils.sysconfig as ds; print ds.get_python_version()") &&
 if [ ! -d $product_dir ]; then
         mkdir -p $product_dir
         mkdir -p $product_dir/lib/python$python_version/site-packages
 fi &&
-cd @PRODUCT@-@VERSION@ &&
+cd @PRODUCT@-@REPOVERSION@ &&
 cat >> setup.cfg <<EOF
 [build_ext]
 define = PyMPI_MISSING_MPI_Type_create_f90_integer, PyMPI_MISSING_MPI_Type_create_f90_real, PyMPI_MISSING_MPI_Type_create_f90_complex
