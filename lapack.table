@@ -1,1 +1,4 @@
-# This is a eups table file for lapack
+if (type == build) {
+   setupRequired(cmake)
+}
+envPrepend(PKG_CONFIG_PATH, ${PRODUCT_DIR}/lib/pkgconfig)
