@@ -1,4 +1,6 @@
 setupRequired(cfitsio)
+setupRequired(gsl)
+setupRequired(wcslib)
 setupRequired(astrometry_net_data)
 envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
 envPrepend(LD_LIBRARY_PATH, ${PRODUCT_DIR}/lib)

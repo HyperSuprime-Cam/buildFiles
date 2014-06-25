@@ -1,6 +1,6 @@
 @LSST UPS@ &&
 curl -L \
-	http://www.astrometry.net/downloads/OLD/astrometry.net-@REPOVERSION@.tar.gz \
+	http://www.astrometry.net/downloads/astrometry.net-@REPOVERSION@.tar.gz \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
 rm -rf @PRODUCT@-@VERSION@ &&
@@ -12,20 +12,14 @@ product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
 if [ @REPOVERSION@ == "0.30" ]; then
    git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD astrometry_net_0.30_Makefile_sed.patch | tar --extract --verbose
    patch -p0 blind/Makefile < astrometry_net_0.30_Makefile_sed.patch || echo Unable to apply Makefile patch
-fi &&
-_COMPILER=$(basename "$CC") &&
-if [ ${_COMPILER:0:5} == "clang" ]; then
-   export CFLAGS="$CFLAGS -std=gnu89"
-   git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD astrometry_net_0.30_clang_depend.patch | tar --extract --verbose
-   patch -p1 < astrometry_net_0.30_clang_depend.patch || echo Unable to apply clang patch
+   _COMPILER=$(basename "$CC") &&
+   if [ ${_COMPILER:0:5} == "clang" ]; then
+      export CFLAGS="$CFLAGS -std=gnu89"
+      git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD astrometry_net_0.30_c#lang_depend.patch | tar --extract --verbose
+      patch -p1 < astrometry_net_0.30_clang_depend.patch || echo Unable to apply clang patch
+   fi
 fi &&
 
-make -j 1 &&
-env INSTALL_DIR=$product_dir make install &&
-: "astrometry.net doesn't install include files and libraries, so we need to do it ourselves" &&
-for d in blind util libkd qfits-an qfits-an/src; do 
-	mkdir -p $product_dir/include/$d &&
-	cp $d/*.h $product_dir/include
-done &&
+make install -j 1 INSTALL_DIR=$product_dir SYSTEM_GSL=yes GSL_INC="-I${GSL_DIR}/include" GSL_LIB="-L${GSL_DIR}/lib -lgsl -lgslcblas" WCSLIB_INC="-I${WCSLIB_DIR}/include" WCSLIB_LIB="-L${WCSLIB_DIR}/lib -lwcs" CFITS_INC="-I${CFITSIO_DIR}/include" CFITS_LIB="-L${CFITSIO_DIR}/lib -lcfitsio" &&
 lsst_ups @PRODUCT@ @VERSION@ $product_dir &&
 git archive --verbose --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git --prefix=ups/ HEAD ${productname}.table | tar --extract --verbose --directory $product_dir/
