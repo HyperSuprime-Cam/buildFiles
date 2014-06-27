@@ -2,3 +2,5 @@ if (type == build) {
    setupRequired(cmake)
 }
 envPrepend(PKG_CONFIG_PATH, ${PRODUCT_DIR}/lib/pkgconfig)
+envPrepend(LD_LIBRARY_PATH, ${PRODUCT_DIR}/lib)
+envPrepend(DYLD_LIBRARY_PATH, ${PRODUCT_DIR}/lib)
