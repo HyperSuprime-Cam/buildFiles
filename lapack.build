@@ -9,7 +9,7 @@ if [ -n "$GCC_DIR" ]; then
     export FC=$GCC_DIR/bin/gfortran &&
     export CC=$GCC_DIR/bin/gcc
 fi &&
-cmake -DLAPACKE=1 -DCMAKE_INSTALL_PREFIX:PATH=$product_dir . &&
+cmake -DBUILD_SHARED_LIBS=1 -DLAPACKE=1 -DCMAKE_INSTALL_PREFIX:PATH=$product_dir . &&
 make &&
 make install &&
 lsst_ups @PRODUCT@ @VERSION@ $product_dir
