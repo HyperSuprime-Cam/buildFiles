@@ -5,6 +5,10 @@ curl -L \
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
 cd @PRODUCT@-@VERSION@ &&
 product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
+if [ -n "$GCC_DIR" ]; then
+    export FC=$GCC_DIR/bin/gfortran &&
+    export CC=$GCC_DIR/bin/gcc
+fi &&
 cmake -DLAPACKE=1 -DCMAKE_INSTALL_PREFIX:PATH=$product_dir . &&
 make &&
 make install &&
