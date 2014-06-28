@@ -17,10 +17,10 @@ if [ @REPOVERSION@ == "0.30" ]; then
       export CFLAGS="$CFLAGS -std=gnu89"
       git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD astrometry_net_0.30_c#lang_depend.patch | tar --extract --verbose
       patch -p1 < astrometry_net_0.30_clang_depend.patch || echo Unable to apply clang patch
-   fi &&
-   mkdir -p $product_dir &&
-   git archive --verbose --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git --prefix=ups/ HEAD ${productname}.table | tar --extract --verbose --directory $product_dir/ &&
-   lsst_ups @PRODUCT@ @VERSION@ $product_dir
+   fi
 fi &&
 
-make install -j 1 INSTALL_DIR=$product_dir SYSTEM_GSL=yes GSL_INC="-I${GSL_DIR}/include" GSL_LIB="-L${GSL_DIR}/lib -lgsl -lgslcblas" WCSLIB_INC="-I${WCSLIB_DIR}/include" WCSLIB_LIB="-L${WCSLIB_DIR}/lib -lwcs" CFITS_INC="-I${CFITSIO_DIR}/include" CFITS_LIB="-L${CFITSIO_DIR}/lib -lcfitsio"
+make install -j 1 INSTALL_DIR=$product_dir SYSTEM_GSL=yes GSL_INC="-I${GSL_DIR}/include" GSL_LIB="-L${GSL_DIR}/lib -lgsl -lgslcblas" WCSLIB_INC="-I${WCSLIB_DIR}/include" WCSLIB_LIB="-L${WCSLIB_DIR}/lib -lwcs" CFITS_INC="-I${CFITSIO_DIR}/include" CFITS_LIB="-L${CFITSIO_DIR}/lib -lcfitsio" &&
+
+lsst_ups @PRODUCT@ @VERSION@ $product_dir &&
+eups expandtable -i ${product_dir}/ups/@PRODUCT@.table
