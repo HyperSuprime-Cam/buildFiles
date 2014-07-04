@@ -1,0 +1,72 @@
+#
+# parameters
+#
+
+# the top directory's name that appears when we decompress the tarball
+declare openblas_dir="xianyi-OpenBLAS-347dded"
+# the latest binutils' version
+declare binutils_ver="2.24"
+# maximum number of cores expected
+declare NUM_THREADS=128
+
+@LSST UPS@ &&
+declare topdir="$(pwd)" &&
+
+#
+# build binutils
+#
+# To build OpenBLAS, we need the latest binutils.
+# We don't have to prepare the binutils before GCC.
+# If we just prepend the binutils' path to PATH, it gets effective.
+{
+    [[ -e binutils-${binutils_ver} ]] ||
+    curl -L \
+        http://ftp.gnu.org/gnu/binutils/binutils-${binutils_ver}.tar.bz2 \
+    | tar -xjf -
+} &&
+
+mkdir -p build &&
+cd build &&
+../binutils-${binutils_ver}/configure \
+    --prefix="${topdir}/binutils" &&
+make &&
+make install &&
+
+cd "${topdir}" &&
+export PATH="${topdir}/binutils/bin:$PATH" &&
+
+#
+# build OpenBLAS
+#
+
+#
+# Download source
+#
+{
+    [[ -e "${openblas_dir}" ]] ||
+    curl -L \
+        http://github.com/xianyi/OpenBLAS/tarball/v@VERSION@ \
+    | tar -xzf -
+} &&
+
+product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
+cd "${openblas_dir}" &&
+
+#
+# build
+#
+
+# NUM_THREADS means max.number of threads that will be created by OpenBLAS.
+# The number can be large: actual number of threads created will also be
+# limited by the number of cores available. You might fancy that NUM_THREADS
+# should be infinity: that is impossible. In thread-creating functions,
+# OpenBLAS stores thread information in arrays of length NUM_THREADS. The
+# arrays are on the stack. The functions consume about 300 bytes of the stack
+# per thread. If you set NUM_THREADS=16777216, for example, the library
+# probably stops working because of stack exhaustion.
+#
+# If you need MKL_ILP64 compatible library, use INTERFACE64=1
+#
+make PREFIX=$product_dir NO_STATIC=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NUM_THREADS=${NUM_THREADS} BINARY=64 &&
+make PREFIX=$product_dir NO_STATIC=1 DYNAMIC_ARCH=1 NO_AFFINITY=1 NUM_THREADS=${NUM_THREADS} BINARY=64 install &&
+lsst_ups @PRODUCT@ @VERSION@ $product_dir
