@@ -1,10 +1,11 @@
 # -*- sh -*-
+@LSST UPS@ &&
 # get the tarball
-wget http://www.netlib.org/clapack/clapack-@VERSION@.tgz &&
+wget http://www.netlib.org/clapack/clapack-@REPOVERSION@.tgz &&
 
 # untar
-tar xvzf clapack-@VERSION@.tgz &&
-cd CLAPACK-@VERSION@ &&
+tar xvzf clapack-@REPOVERSION@.tgz &&
+cd CLAPACK-@REPOVERSION@ &&
 
 # update the make.inc file
 sed -e 's/PLAT = _LINUX/PLAT =/' -e 's/CFLAGS    = -O3/CFLAGS    = -O3 -fPIC/' make.inc.example > make.inc &&
@@ -37,3 +38,4 @@ for p in lapack blas; do
     done
 done &&
 ranlib $product_dir/lib/*.a
+lsst_ups @PRODUCT@ @VERSION@ $product_dir
