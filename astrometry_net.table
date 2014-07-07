@@ -1,6 +1,6 @@
 setupRequired(cfitsio)
 setupRequired(gsl)
-setupOptional(wcslib)
+setupRequired(wcslib)
 setupRequired(numpy)
 envPrepend(PYTHONPATH, ${PRODUCT_DIR}/lib/python)
 envPrepend(LD_LIBRARY_PATH, ${PRODUCT_DIR}/lib)
