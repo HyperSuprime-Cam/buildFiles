@@ -31,11 +31,11 @@ for p in lapack blas; do
     for s in a so dylib; do
 	for f in $p*.$s; do
 	    if [ -f $f ]; then
-		cp $f $product_dir/lib
+		cp $f $product_dir/lib &&
 		ln -fs $product_dir/lib/$f
 	    fi
 	done
     done
 done &&
-ranlib $product_dir/lib/*.a
+ranlib $product_dir/lib/*.a &&
 lsst_ups @PRODUCT@ @VERSION@ $product_dir
