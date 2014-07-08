@@ -29,7 +29,7 @@ cp INCLUDE/*.h $product_dir/include &&
 cp F2CLIBS/libf2c.* $product_dir/lib &&
 for p in lapack blas; do
     for s in a so dylib; do
-	for f in $p*.$s; do
+	for f in lib$p*.$s; do
 	    if [ -f $f ]; then
 		cp $f $product_dir/lib &&
 		ln -fs $product_dir/lib/$f
