@@ -20,7 +20,7 @@ case $flavor in
 esac &&
 if true; then
 	curl -L \
-	http://hea-www.harvard.edu/saord/download/ds9/$arch/ds9.$arch.@VERSION@.tar.gz \
+	http://ds9.si.edu/download/$arch/ds9.$arch.@VERSION@.tar.gz \
 	> @PRODUCT@-@VERSION@.tar.gz &&
 	tar -xzf @PRODUCT@-@VERSION@.tar.gz
 fi &&
