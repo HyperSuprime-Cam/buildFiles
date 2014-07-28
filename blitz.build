@@ -1,6 +1,6 @@
 @LSST UPS@ &&
 curl -L \
-    http://downloads.sourceforge.net/project/blitz/blitz/Blitz%2B%2B%20@VERSION@/blitz-@REPOVERSION@.tar.gz
+    http://downloads.sourceforge.net/project/blitz/blitz/Blitz%2B%2B%20@VERSION@/blitz-@REPOVERSION@.tar.gz \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
 cd blitz-@REPOVERSION@ &&
