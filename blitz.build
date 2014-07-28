@@ -1,0 +1,21 @@
+@LSST UPS@ &&
+curl -L \
+    http://downloads.sourceforge.net/project/blitz/blitz/Blitz%2B%2B%20@VERSION@/blitz-@REPOVERSION@.tar.gz
+> @PRODUCT@-@VERSION@.tar.gz &&
+gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
+cd blitz-@REPOVERSION@ &&
+product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
+
+# Apply patch to remove compiler warnings
+if [ @REPOVERSION@ == "0.10" ]; then
+    git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD blitz-0.10-compiler-warnings.patch | tar --extract --verbose &&
+    patch -p1 < blitz-0.10-compiler-warnings.patch || echo Unable to apply patch
+fi &&
+
+./configure --prefix=$product_dir &&
+make &&
+if [ ! -d $product_dir ]; then
+	mkdir -p $product_dir;
+fi &&
+make install &&
+lsst_ups @PRODUCT@ @VERSION@ $product_dir

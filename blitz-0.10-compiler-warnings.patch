@@ -1,0 +1,22 @@
+diff --git a/blitz/array/resize.cc b/blitz/array/resize.cc
+index 655f24d..856ed79 100644
+--- a/blitz/array/resize.cc
++++ b/blitz/array/resize.cc
+@@ -974,6 +974,17 @@ void Array<T_numtype, N_rank>::resizeAndPreserve(int length0, int length1,
+               ubound(9)));
+            Range overlap10 = Range(fromStart, (extrema::min)(B.ubound(10), 
+               ubound(10)));
++            assert(overlap0.first() == overlap0.first() && // avoid unused variables warning
++                   overlap1.first() == overlap1.first() &&
++                   overlap2.first() == overlap2.first() &&
++                   overlap3.first() == overlap3.first() &&
++                   overlap4.first() == overlap4.first() &&
++                   overlap5.first() == overlap5.first() &&
++                   overlap6.first() == overlap6.first() &&
++                   overlap7.first() == overlap7.first() &&
++                   overlap8.first() == overlap8.first() &&
++                   overlap9.first() == overlap9.first() &&
++                   overlap10.first() == overlap10.first());            
+        }
+        reference(B);
+    }
