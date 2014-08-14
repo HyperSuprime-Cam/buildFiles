@@ -3,7 +3,17 @@
 #
 
 # the top directory's name that appears when we decompress the tarball
-declare openblas_dir="xianyi-OpenBLAS-347dded"
+if [[ "@VERSION@" == "0.2.9" ]]
+then
+    declare openblas_dir="xianyi-OpenBLAS-347dded"
+elif [[ "@VERSION@" == "0.2.10" ]]
+then
+    declare openblas_dir="xianyi-OpenBLAS-3bab9fa"
+else
+    echo "openblas' version @VERSION@ is not supported. This build file is broken by nature."
+    exit 1
+fi
+
 # the latest binutils' version
 declare binutils_ver="2.24"
 # maximum number of cores expected
