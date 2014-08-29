@@ -8,7 +8,7 @@ tar xvzf clapack-@REPOVERSION@.tgz &&
 cd CLAPACK-@REPOVERSION@ &&
 
 # update the make.inc file
-sed -e 's/PLAT = _LINUX/PLAT =/' -e 's/CFLAGS    = -O3/CFLAGS    = -O3 -fPIC/' -e 's/\([[:alnum:]]\{1,\}$(PLAT).a\)/lib\1/g' make.inc.example > make.inc &&
+sed -e 's/PLAT = _LINUX/PLAT =/' -e 's/CFLAGS    = -O3/CFLAGS    = -O3 -g -fPIC/' -e 's/\([[:alnum:]]\{1,\}$(PLAT).a\)/lib\1/g' make.inc.example > make.inc &&
 
 # build f2c
 make f2clib &&
