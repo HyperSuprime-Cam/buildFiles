@@ -21,7 +21,7 @@ cd libunwind-1.1 &&
 make install &&
 cd ../ &&
 curl -Lk \
-    http://github.com/ktf/igprof/archive/@VERSION@.tar.gz \
+    http://github.com/igprof/igprof/archive/@VERSION@.tar.gz \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
 cd @PRODUCT@-$(echo @VERSION@ | sed 's|^v||') &&
