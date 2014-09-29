@@ -107,7 +107,7 @@ build_lsst() {
     mkdir $builddir &&
     git archive --format=tar --remote=git://hsca.ipmu.jp/repos/${reponame}.git ${repoversion} | tar -x -C $builddir &&
     cd $builddir &&
-    setup -r . &&
+    setup --just -r . &&
     scons opt=3 install version=$versionname
 }
 """
