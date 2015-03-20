@@ -34,6 +34,9 @@ fi &&
 if [ @VERSION@ == "1.51.0" ]; then
    git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD boost-gil-clang-c++11-narrowing.patch | tar --extract --verbose
    patch -p0 boost/gil/channel_algorithm.hpp < boost-gil-clang-c++11-narrowing.patch || echo Unable to apply patch
+elif [ @VERSION@ == "1.55.0" ]; then
+   git archive --format=tar --remote=git://hsca.ipmu.jp/repos/devenv/buildFiles.git HEAD boost-clang3.4-int128.patch | tar --extract --verbose &&
+   patch -p1 < boost-clang3.4-int128.patch || echo Unable to apply patch
 fi &&
 
 # Test for clang
