@@ -1,11 +1,11 @@
 # -*- sh -*-
 @LSST UPS@ &&
-majorminor=$(echo @VERSION@ | sed 's|^\([0-9]\{1,\}\)\.\([0-9]\{1,\}\)\..*|\1\.\2|') &&
+majorminor=$(echo @REPOVERSION@ | sed 's|^\([0-9]\{1,\}\)\.\([0-9]\{1,\}\)\..*|\1\.\2|') &&
 curl -L \
-    http://dev.mysql.com/get/Downloads/MySQL-${majorminor}/mysql-@VERSION@.tar.gz \
+    http://dev.mysql.com/get/Downloads/MySQL-${majorminor}/mysql-@REPOVERSION@.tar.gz \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
-cd mysql-@VERSION@ &&
+cd mysql-@REPOVERSION@ &&
 product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
 
 
