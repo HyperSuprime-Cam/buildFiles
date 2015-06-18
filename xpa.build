@@ -1,9 +1,9 @@
 @LSST UPS@ &&
 curl -L \
-	http://hea-www.harvard.edu/saord/download/xpa/@PRODUCT@-@VERSION@.tar.gz \
+	http://hea-www.harvard.edu/saord/download/xpa/@PRODUCT@-@REPOVERSION@.tar.gz \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
-cd @PRODUCT@-@VERSION@ &&
+cd @PRODUCT@-@REPOVERSION@ &&
 product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
 ./configure --enable-shared --prefix=$product_dir &&
 make &&
