@@ -4,8 +4,26 @@ curl -L \
 > @PRODUCT@-@VERSION@.tar.gz &&
 gunzip < @PRODUCT@-@VERSION@.tar.gz | tar -xf - &&
 cd @PRODUCT@-@VERSION@ &&
+
+GMP_VERSION=5.1.3 &&
+MPFR_VERSION=3.1.2 &&
+MPC_VERSION=1.0.3 &&
+curl -L http://ftpmirror.gnu.org/gmp/gmp-${GMP_VERSION}.tar.gz > gmp-${GMP_VERSION}.tar.gz &&
+curl -L http://ftpmirror.gnu.org/mpfr/mpfr-${MPFR_VERSION}.tar.gz > mpfr-${MPFR_VERSION}.tar.gz &&
+curl -L http://ftpmirror.gnu.org/mpc/mpc-${MPC_VERSION}.tar.gz > mpc-${MPC_VERSION}.tar.gz &&
+gunzip < gmp-${GMP_VERSION}.tar.gz | tar -xf - &&
+gunzip < mpfr-${MPFR_VERSION}.tar.gz | tar -xf - &&
+gunzip < mpc-${MPC_VERSION}.tar.gz | tar -xf - &&
+ln -sf gmp-${GMP_VERSION} gmp &&
+ln -sf mpfr-${MPFR_VERSION} mpfr &&
+ln -sf mpc-${MPC_VERSION} mpc &&
+
+cd .. &&
+mkdir build &&
+cd build &&
 product_dir=$(eups path 0)/$(eups flavor)/@PRODUCT@/@VERSION@ &&
-./configure --prefix=$product_dir --with-gmp=$GMP_DIR --with-mpfr=$MPFR_DIR --with-mpc=$MPC_DIR --enable-languages=c,c++,fortran --disable-multilib &&
+
+../@PRODUCT@-@VERSION@/configure --prefix=$product_dir --enable-languages=c,c++,fortran --disable-multilib &&
 make &&
 if [ ! -d $product_dir ]; then
 	mkdir -p $product_dir;
